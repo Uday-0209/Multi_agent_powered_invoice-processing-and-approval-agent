@@ -1,0 +1,24 @@
+# Python stuff
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Environment variables (CRITICAL for AI/API keys)
+.env
+.flaskenv
+
+# AI/Data science specific
+data/
+outputs/
+*.log
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code settings
+.vscode/
