@@ -13,3 +13,20 @@ class OCRAgent:
             **state,
             "ocr_text": text
         }
+# class OCRAgent:
+
+#     def run(self, state):
+
+#         print("Running OCR Agent")
+
+#         # MOCK OCR OUTPUT
+#         state["ocr_text"] = """
+#         Purchase Order
+#         Vendor: ABC Ltd
+#         Company: XYZ Corp
+#         Item: Steel Rod
+#         Quantity: 200
+#         Amount: 5000
+#         """
+
+#         return state

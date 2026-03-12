@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph
 from orchestration.state import WorkFlowState
 from orchestration.router import route_document
+import dspy_programs.config
 
 from agents.ocr_agent.agent import OCRAgent
 from agents.extraction_agent.agent import ExtractionAgent
@@ -56,8 +57,7 @@ def build_workflow():
     graph.add_node('human_review', human_review.run)
     
     
-    graph.add_node("vendor_verification", vendor_verification.run)
-    
+      
     
     graph.set_entry_point('intake')
     
@@ -65,7 +65,7 @@ def build_workflow():
     graph.add_edge('ocr', 'extraction')
     graph.add_edge('extraction', 'classification')
     graph.add_conditional_edges(
-        "classify",
+        'classification',
         route_document,
         {
             "po_pipeline": "vendor_verification",

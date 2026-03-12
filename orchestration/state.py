@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, List, Dict 
 
 class WorkFlowState(TypedDict):
     
@@ -28,4 +28,7 @@ class WorkFlowState(TypedDict):
     validation_status: str
     payment_status: str
     company: str
+    
+    events: List[Dict]
+    
     

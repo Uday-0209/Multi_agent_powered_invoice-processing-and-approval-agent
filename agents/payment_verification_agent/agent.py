@@ -2,8 +2,8 @@ from tools.db_tools import DBTools
 
 class PaymentVerificationAgent:
 
-    def __init__(self, db_tools: DBTools):
-        self.db_tools = db_tools
+    def __init__(self):
+        self.db_tools = DBTools()
 
     def run(self, state):
 
