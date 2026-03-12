@@ -1,18 +1,16 @@
-import dspy 
-from dspy_programs.invoice_extractor import InvoiceExtraction
+
+from dspy_programs.prompt_optimizer import optmize_extractor
 
 class ExtractionAgent:
+    def __init__(self) -> None:
+        self.program = optmize_extractor()
+        
     def run(self, state: dict):
-        
-        text = state['ocr_text']
-        
-        extractor = dspy.Predict(InvoiceExtraction)
-        
-        
-        result  = extractor(text = text)
+                
+        result  = self.program(text = state["ocr_text"])
         
         return {
             **state,
             "vendor": result.vendor,
-            "total": result.totel
+            "total": result.total
         } 

@@ -18,3 +18,11 @@ def list_agents():
             "audit_agent"
         ]
     }
+    
+@router.post("/review")
+
+def review_invoice(invoice_id: str, decision: str):
+    return {
+        "invoice_id": invoice_id,
+        "human_decision": decision
+    }
