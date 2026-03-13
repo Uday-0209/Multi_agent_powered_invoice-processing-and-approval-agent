@@ -23,3 +23,10 @@ outputs/
 
 # VS Code settings
 .vscode/
+
+Archive.zip
+Dummy_invoice.pdf
+pdf.py
+
+utils.js
+lib/

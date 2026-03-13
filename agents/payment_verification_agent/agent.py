@@ -1,4 +1,6 @@
 from tools.db_tools import DBTools
+from utils.event_logger import log_event
+
 
 class PaymentVerificationAgent:
 
@@ -7,8 +9,9 @@ class PaymentVerificationAgent:
 
     def run(self, state):
 
-        if state["document_type"] != "receipt":
-            return state
+        # If not receipt, do nothing
+        if state.get("document_type") != "receipt":
+            return {}
 
         invoice_number = state.get("invoice_number")
 
@@ -16,18 +19,42 @@ class PaymentVerificationAgent:
 
         if not invoice:
 
-            state["payment_status"] = "invalid"
-            state["payment_reason"] = "Receipt received without invoice"
+            result = {
+                "payment_status": "invalid",
+                "payment_reason": "Receipt received without invoice"
+            }
 
-            return state
+            log_event(
+                state,
+                "payment_verification",
+                result
+            )
 
-        if float(state["amount_paid"]) != float(invoice.amount):
+            return result
 
-            state["payment_status"] = "invalid"
-            state["payment_reason"] = "Receipt payment mismatch"
+        if float(state.get("amount_paid", 0)) != float(invoice.amount):
 
-            return state
+            result = {
+                "payment_status": "invalid",
+                "payment_reason": "Receipt payment mismatch"
+            }
 
-        state["payment_status"] = "valid"
+            log_event(
+                state,
+                "payment_verification",
+                result
+            )
 
-        return state
+            return result
+
+        result = {
+            "payment_status": "valid"
+        }
+
+        log_event(
+            state,
+            "payment_verification",
+            result
+        )
+
+        return result

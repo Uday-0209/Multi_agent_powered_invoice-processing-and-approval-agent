@@ -1,5 +1,6 @@
 
 from dspy_programs.prompt_optimizer import optmize_extractor
+from utils.event_logger import log_event 
 
 class ExtractionAgent:
     def __init__(self) -> None:
@@ -7,10 +8,18 @@ class ExtractionAgent:
         
     def run(self, state: dict):
                 
-        result  = self.program(text = state["ocr_text"])
+        result  = self.program(text = state["ocr_text"])    
         
-        return {
-            **state,
+        output = {
             "vendor": result.vendor,
             "total": result.total
-        } 
+
+        }   
+        
+        
+        log_event(
+            state,
+            "data_extraction",
+            output
+        )
+        return output

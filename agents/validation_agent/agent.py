@@ -1,14 +1,17 @@
 from tools.db_tools import DBTools
+from utils.event_logger import log_event
+
 
 class ValidationAgent:
 
     def __init__(self):
         self.db_tools = DBTools()
 
-    def run(self, state):
+    def run(self, state: dict):
 
-        if state["document_type"] != "invoice":
-            return state
+        # If not invoice, skip validation
+        if state.get("document_type") != "invoice":
+            return {}
 
         po_number = state.get("po_number")
 
@@ -16,18 +19,42 @@ class ValidationAgent:
 
         if not po:
 
-            state["validation_status"] = "invalid"
-            state["validation_reason"] = "Invoice received without purchase order"
+            result = {
+                "validation_status": "invalid",
+                "validation_reason": "Invoice received without purchase order"
+            }
 
-            return state
+            log_event(
+                state,
+                "validation",
+                result
+            )
 
-        if float(state["amount"]) != float(po.amount):
+            return result
 
-            state["validation_status"] = "invalid"
-            state["validation_reason"] = "Invoice amount mismatch"
+        if float(state.get("amount", 0)) != float(po.amount):
 
-            return state
+            result = {
+                "validation_status": "invalid",
+                "validation_reason": "Invoice amount mismatch"
+            }
 
-        state["validation_status"] = "valid"
+            log_event(
+                state,
+                "validation",
+                result
+            )
 
-        return state
+            return result
+
+        result = {
+            "validation_status": "valid"
+        }
+
+        log_event(
+            state,
+            "validation",
+            result
+        )
+
+        return result

@@ -1,5 +1,6 @@
 import dspy 
 from dspy_programs.doc_classifier import DocumentClassification
+from utils.event_logger import log_event
 
 class ClassificationAgent:
     
@@ -9,7 +10,13 @@ class ClassificationAgent:
         
         result = classifier(text = state['ocr_text'])
         
-        return {
-            **state,
-            "doc_type": result.doc_type
+        output = {
+            
+            "document_type": result.doc_type
         }
+        log_event(
+            state,
+            "document_classification",
+            output
+        )
+        return output

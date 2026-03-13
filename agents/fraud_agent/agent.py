@@ -1,4 +1,5 @@
 from dspy_programs.fraud_optimizer import optimize_fraud_detector
+from utils.event_logger import log_event 
 
 class FraudAgent:
     def __init__(self) -> None:
@@ -16,8 +17,15 @@ class FraudAgent:
         except:
             fraud_score = 0   # fallback if LLM returns invalid value
             
-        return {
-            **state,
+        
+        output = {
             "fraud_score": fraud_score,
             "fraud_reason": result.reason
-        }
+        }    
+        
+        log_event(
+            state,
+            "fraud_detection",
+           output
+        )
+        return output

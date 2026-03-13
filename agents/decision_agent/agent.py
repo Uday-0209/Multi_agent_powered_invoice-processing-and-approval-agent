@@ -1,6 +1,8 @@
 from dspy_programs.decision_optimizer import optimize_decision_model
 from tools.db_tools import DBTools
 from tools.notification_tools import NotificationTools
+from utils.event_logger import log_event
+
 
 class DecisionAgent:
 
@@ -12,20 +14,20 @@ class DecisionAgent:
     def run(self, state: dict):
 
         result = self.program(
-            vendor=state["vendor"],
-            total=state["total"],
-            fraud_score=str(state["fraud_score"]),
-            fraud_reason=state["fraud_reason"]
+            vendor=state.get("vendor"),
+            total=state.get("total"),
+            fraud_score=str(state.get("fraud_score")),
+            fraud_reason=state.get("fraud_reason")
         )
         
         decision = result.decision
-        state = {**state,
+        output = {
             "decision": result.decision,
             "explanation": result.explanation
         }
         
         if decision == "approve":
-            doc_type = state.get['doc_type']
+            doc_type = state.get('doc_type')
             
             if doc_type == "purchase_order":
                 self.db_tools.save_purchase_order(state)
@@ -35,10 +37,15 @@ class DecisionAgent:
                 self.db_tools.save_receipt(state)
                 
         self.notification_tools.send_notification({
-            "document_type": state["document_type"],
-            "vendor": state["vendor"],
-            "total": state["total"],
+            "document_type": state.get("document_type"),
+            "vendor": state.get("vendor"),
+            "total": state.get("total"),
             "decision": decision
         })
+        log_event(
+            state,
+            "decision",
+            output
+        )
         
-        return state
+        return output

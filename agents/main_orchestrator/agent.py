@@ -1,6 +1,6 @@
 class MainOrchestratorAgent:
 
-    def run(self, state):
+    def run(self, state: dict):
 
         doc_type = state["document_type"]
 

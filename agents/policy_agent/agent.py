@@ -1,18 +1,39 @@
+from utils.event_logger import log_event
+
+
 class PolicyAgent:
 
     def run(self, state):
 
-        total = float(state["total"].replace("$", ""))
+        raw_total = state.get("total", "0")
+
+        clean_total = (
+            str(raw_total)
+            .replace("$", "")
+            .replace(",", "")
+            .strip()
+        )
+
+        total = float(clean_total)
 
         if total > 10000:
 
-            return {
-                **state,
+            result = {
                 "policy_flag": True,
                 "policy_reason": "Amount exceeds approval threshold"
             }
 
-        return {
-            **state,
-            "policy_flag": False
-        }
+        else:
+
+            result = {
+                "policy_flag": False,
+                "policy_reason": ""
+            }
+
+        log_event(
+            state,
+            "policy_evaluation",
+            result
+        )
+
+        return result

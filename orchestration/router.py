@@ -1,23 +1,14 @@
-def route_decision(state):
+def document_router(state):
 
-    decision = state["decision"]
-
-    if decision == "manual_review":
-        return "human_review"
-
-    return "end"
-
-def route_document(state):
-
-    doc_type = state["document_type"]
+    doc_type = state.get("document_type")
 
     if doc_type == "purchase_order":
-        return "po_pipeline"
+        return "po_flow"
 
     if doc_type == "invoice":
-        return "invoice_pipeline"
+        return "invoice_flow"
 
     if doc_type == "receipt":
-        return "receipt_pipeline"
+        return "receipt_flow"
 
-    return "end"
+    return "invoice_flow"

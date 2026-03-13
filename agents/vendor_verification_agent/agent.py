@@ -1,6 +1,6 @@
 from tools.db_tools import DBTools
 from database.models import PurchaseOrder
-
+from utils.event_logger import log_event
 
 class VendorVerificationAgent:
 
@@ -15,8 +15,8 @@ class VendorVerificationAgent:
         po_number = state.get("po_number")
 
         if not po_number:
-            state["vendor_verified"] = False
-            return state
+            output = {"vendor_verified": False}
+            return output
 
         po = self.db_tools.db.query(PurchaseOrder).filter_by(
             po_number=po_number
@@ -24,7 +24,12 @@ class VendorVerificationAgent:
 
         verified = po is not None
 
-        return {
-            **state,
-            "vendor_verified": verified
-        }
+        
+           
+        output = {"vendor_verified":  verified}
+        
+        log_event(
+            state,
+            "vendor_verification",
+            {"verified": verified})
+        return output
