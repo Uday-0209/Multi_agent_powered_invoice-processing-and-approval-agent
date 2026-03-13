@@ -1,7 +1,12 @@
 import dspy 
 from dspy_programs.doc_classifier import DocumentClassification
 from utils.event_logger import log_event
+from dotenv import load_dotenv
+import os 
+from langsmith import traceable
 
+load_dotenv()
+@traceable(name = "ClassificationAgent")
 class ClassificationAgent:
     
     def run(self, state):

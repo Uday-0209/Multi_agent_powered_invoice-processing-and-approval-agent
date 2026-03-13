@@ -68,18 +68,18 @@ def test_po():
         "ocr_text": """
         PURCHASE ORDER
 
-        PO Number: PO-1001
+        PO Number: PO-1002
         Vendor: AI Model Optimization
-        Company: OpenAI
-        Item: GPU Cluster
+        Company: anthropic
+        Item: GPU blaster
         Quantity: 5
-        Amount: 4620
+        Amount: 9620
         """,
 
         "vendor": "AI Model Optimization",
-        "company": "OpenAI",
-        "po_number": "PO-1001",
-        "amount": "4620"
+        "company": "anthropic",
+        "po_number": "PO-1002",
+        "amount": "9620"
     }
 
     result = workflow.invoke(state)
@@ -96,17 +96,17 @@ def test_invoice():
         INVOICE
 
         Invoice Number: INV-1001
-        PO Number: PO-1001
+        PO Number: PO-1002
         Vendor: AI Model Optimization
-        Company: OpenAI
-        Amount: 4620
+        Company: anthropic
+        Amount: 9620
         """,
 
         "invoice_number": "INV-1001",
-        "po_number": "PO-1001",
+        "po_number": "PO-1002",
         "vendor": "AI Model Optimization",
-        "company": "OpenAI",
-        "amount": 4620
+        "company": "anthropic",
+        "amount": 9620
     }
 
     result = workflow.invoke(state)
@@ -125,13 +125,13 @@ def test_receipt():
 
         Receipt Number: RC-1001
         Invoice Number: INV-1001
-        Amount Paid: 4620
+        Amount Paid: 9620
         Payment Date: 2026-03-12
         """,
 
         "receipt_number": "RC-1001",
         "invoice_number": "INV-1001",
-        "amount_paid": 4620,
+        "amount_paid": 9620,
         "payment_date": "2026-03-12"
     }
 

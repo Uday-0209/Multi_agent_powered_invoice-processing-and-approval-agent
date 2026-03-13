@@ -1,5 +1,11 @@
 from tools.notification_tools import NotificationTools
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
 
+load_dotenv()
+
+@traceable(name = "NotificationAgent")
 class NotificationAgent:
     def __init__(self) -> None:
         self.notify = NotificationTools()

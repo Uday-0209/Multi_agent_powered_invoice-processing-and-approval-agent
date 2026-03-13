@@ -1,7 +1,12 @@
 from utils.event_logger import log_event
 from services.ocr_service import extract_text_from_pdf
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
 
+load_dotenv()
 
+@traceable(name = "OCRAgent")
 class OCRAgent:
 
     def run(self, state):

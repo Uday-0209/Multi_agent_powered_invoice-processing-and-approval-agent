@@ -1,7 +1,13 @@
 
 from dspy_programs.prompt_optimizer import optmize_extractor
 from utils.event_logger import log_event 
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
 
+load_dotenv()
+
+@traceable(name = "ExtractionAgent")
 class ExtractionAgent:
     def __init__(self) -> None:
         self.program = optmize_extractor()

@@ -1,7 +1,12 @@
 from tools.db_tools import DBTools
 from utils.event_logger import log_event
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
 
+load_dotenv()
 
+@traceable(name = "ValidationAgent")
 class ValidationAgent:
 
     def __init__(self):

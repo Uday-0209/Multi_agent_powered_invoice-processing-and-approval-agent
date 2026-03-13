@@ -1,6 +1,12 @@
 from dspy_programs.fraud_optimizer import optimize_fraud_detector
 from utils.event_logger import log_event 
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
 
+load_dotenv()
+
+@traceable(name = "FraudAgent")
 class FraudAgent:
     def __init__(self) -> None:
         self.program = optimize_fraud_detector()

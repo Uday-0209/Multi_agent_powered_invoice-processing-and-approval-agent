@@ -33,8 +33,12 @@
 #         return output
 
 from utils.event_logger import log_event
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
 
-
+load_dotenv()
+@traceable(name = "DocumentIntakeAgent")
 class DocumentIntakeAgent:
 
     def run(self, state):

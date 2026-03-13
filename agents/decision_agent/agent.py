@@ -2,8 +2,12 @@ from dspy_programs.decision_optimizer import optimize_decision_model
 from tools.db_tools import DBTools
 from tools.notification_tools import NotificationTools
 from utils.event_logger import log_event
+from dotenv import load_dotenv
+import os
+from langsmith import traceable
+load_dotenv()
 
-
+@traceable(name = "DecisionAgent")
 class DecisionAgent:
 
     def __init__(self):
