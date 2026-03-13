@@ -15,13 +15,27 @@ def visualize_workflow():
 
     # Add nodes
     for node in graph.nodes:
-        net.add_node(node, label=node)
+       
+        color = "lightblue"
+
+        if "save" in node:
+            color = "green"
+
+        if "decision" in node:
+            color = "orange"
+
+        if "notification" in node:
+            color = "red"
+
+        net.add_node(node, label=node, color=color)
 
     # Add edges
     for edge in graph.edges:
         source = edge[0]
         target = edge[1]
         net.add_edge(source, target)
+    
+    
 
     # Save interactive HTML
     net.write_html("workflow_graph.html")
